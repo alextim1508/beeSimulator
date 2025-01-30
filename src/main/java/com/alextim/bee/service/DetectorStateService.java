@@ -37,20 +37,25 @@ public class DetectorStateService extends DetectorStateServiceInitializer {
     private float curMeasData;
 
     public DetectorStateService() {
-        super(System.currentTimeMillis());
-        accumulationStartTime = startTime;
+        startTime = accumulationStartTime = System.currentTimeMillis();
     }
 
     public void setMeasTime(int measTime) {
         this.measTime = measTime;
-
-        queues.forEach(LinkedList::clear);
-
         accumulationStartTime = System.currentTimeMillis();
 
-        Arrays.fill(sumAccumulatedScores, 0);
+        clearScores();
     }
 
+    public void reset() {
+        startTime = accumulationStartTime = System.currentTimeMillis();
+        clearScores();
+    }
+
+    private void clearScores() {
+        queues.forEach(LinkedList::clear);
+        Arrays.fill(sumAccumulatedScores, 0);
+    }
 
     private float calsMeasSS(float[] scores, int timeStep) {
         if (timeStep == 0)
@@ -162,7 +167,7 @@ public class DetectorStateService extends DetectorStateServiceInitializer {
 
         MeasData measData;
         if (bdType == BDType.GAMMA) {
-             measData = calcGammaMeasData(curScore, aveScore, curSS, aveSS, accSS, fulSS, accInterval);
+            measData = calcGammaMeasData(curScore, aveScore, curSS, aveSS, accSS, fulSS, accInterval);
         } else {
             measData = calcNeutronMeasData(curScore, aveScore, curSS, aveSS, accSS, fulSS, accInterval);
         }

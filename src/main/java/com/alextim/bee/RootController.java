@@ -133,7 +133,9 @@ public class RootController extends RootControllerInitializer {
 
     @SneakyThrows
     private void lifeCircle() {
+        detectorService.getDetectorStateService().reset();
         Thread.sleep(2000);
+
         detectorService.sendInitEvent();
         Thread.sleep(1000);
 

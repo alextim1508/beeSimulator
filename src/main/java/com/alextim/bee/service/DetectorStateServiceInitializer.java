@@ -4,10 +4,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@RequiredArgsConstructor
 public class DetectorStateServiceInitializer {
 
-    final long startTime;
+    long startTime;
 
     @Getter
     int measTime = 10;
